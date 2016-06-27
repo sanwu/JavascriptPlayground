@@ -1,22 +1,25 @@
 (function () {
     "use strict";
 
+    /// <reference path="../typings/ue.d.ts" />
     module.exports = function () {
-        function GetPC() {
+
+
+        function getPlayerController() {
             return GWorld.GetAllActorsOfClass(PlayerController).OutActors[0]
         }
 
-        let PC = GetPC()
+        let playerController = getPlayerController()
 
         // Widget을 만들자
-        var widget = WidgetBlueprintLibrary.CreateWidget(GWorld, JavascriptWidget, PC)
+        var widget = WidgetBlueprintLibrary.CreateWidget(GWorld, JavascriptWidget, playerController)
         widget.proxy = {}
         widget.JavascriptContext = Context
         widget.bSupportsKeyboardFocus = true
 
         // Setup location / rotation
-        PC.GetControlledPawn().SetActorLocation({X:854,Z:300})
-        PC.SetInitialLocationAndRotation({},{Yaw:170,Pitch:0,Roll:0})
+        playerController.GetControlledPawn().SetActorLocation({X:854,Z:300})
+        playerController.SetInitialLocationAndRotation({},{Yaw:170,Pitch:0,Roll:0})
 
         var data = {
             Block : StaticMesh.Load('/Engine/BasicShapes/Cube.Cube'),
@@ -25,17 +28,16 @@
         }
 
         var update = null
-        var _ = require('lodash')
 
-        var page = new VerticalBox
+        var page = new VerticalBox();
         page.Visibility = 'Visible'
 
         widget.SetRootWidget(page)
         widget.AddToViewport()
 
         // UIOnly mode로 설정
-        PC.bShowMouseCursor = true
-        WidgetBlueprintLibrary.SetInputMode_UIOnly(PC,page)
+        playerController.bShowMouseCursor = true
+        WidgetBlueprintLibrary.SetInputMode_UIOnly(playerController,page)
 
         // Game 설정
         var game = null

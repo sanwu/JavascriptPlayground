@@ -1,14 +1,59 @@
-module.exports = function (widget,vbox) {
+module.exports = function (widget, vbox) {
   "use strict";
 
   var instantiate = require('instantiator')
   var UMG = require('UMG')
 
   function test() {
-    var design = 
-        UMG(Button,{id:'button'},
-            UMG.text({},'Reset')
-        )      
+    var design =
+      // {
+      //     type : HorizontalBox,
+      //     children : [
+      //       {
+      //         slot : {
+      //           Padding : {Left:8, Right:8, Top:8, Bottom:8}
+      //         },
+      //         type : TextBlock,
+      //         attrs : {
+      //           Text : '2048',
+      //           Font : {
+      //             FontObject : GEngine.SmallFont,
+      //             Size : 90
+      //           }
+      //         }
+      //       },
+      //       {
+      //           type: Button,
+      //           slot: { Size: { SizeRule: 'Fill' } },
+      //           children:[
+
+      //           ]
+      //       }
+      //     ]
+      // }
+
+//how to show those buttons?
+      UMG(CanvasPanel, {},
+        UMG(HorizontalBox,{},
+            UMG(Button, { id: 'button' },
+              UMG.text({}, 'Reset')
+            ),
+            UMG(Button, { id: 'button1' },
+              UMG.text({}, 'Reset1')
+            ),
+            UMG(Button, { id: 'button2' },
+              UMG.text({}, 'Reset2')
+            ),
+            UMG(Button, { id: 'button3' },
+              UMG.text({}, 'Reset3')
+            ),
+            UMG(Button, { id: 'button4' },
+              UMG.text({}, 'Reset4')
+            )
+        )
+
+      )
+
 
     var widget = instantiate(design)
     vbox.AddChild(widget)
@@ -46,19 +91,22 @@ module.exports = function (widget,vbox) {
 
   KeyboardInputManager.prototype.listen = function () {
     var map = {
-      'W' : () => this.emit("move", 2),
-      'A' : () => this.emit("move", 1),
-      'S' : () => this.emit("move", 0),
+      'W': () => this.emit("move", 2),
+      'A': () => this.emit("move", 1),
+      'S': () => this.emit("move", 0),
       'D': () => this.emit("move", 3),
       'Up': () => this.emit("move", 2),
       'Left': () => this.emit("move", 1),
       'Down': () => this.emit("move", 0),
       'Right': () => this.emit("move", 3)
     }
+    console.log('what wrong?')
+    widget.proxy.OnKeyDown = (geom, keyevent) => {
 
-    widget.proxy.OnKeyDown = (geom,keyevent) => {
+      console.log('OnKeyDown', geom, keyevent)
+
       var key = KismetInputLibrary.prototype.GetKey(keyevent).KeyName
-
+      console.log(key);
       var op = map[key]
       if (op != undefined) {
         op()
