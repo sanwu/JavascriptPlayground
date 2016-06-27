@@ -1,0 +1,15 @@
+Intermediate
+Saved
+DerivedDataCache
+
+.vc
+.vs
+.ntvs_analysis.dat*
+
+Intermediate
+Saved
+DerivedDataCache
+*.sln
+*.VC.*
+Plugins\UnrealJS
+Binaries
